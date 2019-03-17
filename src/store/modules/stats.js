@@ -15,6 +15,7 @@ const getters = {
 }
 
 const statsModule = {
+    namespaced: true,
     state,
     mutations,
     actions,
