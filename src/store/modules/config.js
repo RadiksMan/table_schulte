@@ -22,8 +22,9 @@ const mutations = {
 }
 
 const actions = {
-    updateTableSize({ commit }, tableSelectedSize){
+    updateTableSize({ commit,dispatch }, tableSelectedSize){
         commit(types.UPDATE_TABLE_SIZE, tableSelectedSize)
+        dispatch('game/startGame', null, { root: true })
     }
 }
 

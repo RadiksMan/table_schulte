@@ -8,3 +8,4 @@ export const GAME_PREPEARE = 'GAME_PREPEARE';
 export const GAME_CREATE_GAME_FIELD = 'GAME_CREATE_GAME_FIELD';
 export const GAME_READY = 'GAME_READY';
 export const GAME_START = 'GAME_START';
+export const GAME_END = 'GAME_END';
