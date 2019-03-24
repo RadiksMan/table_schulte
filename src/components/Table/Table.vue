@@ -9,6 +9,7 @@
           v-for="cell in playingField"
           :key="cell.value"
           :cell="cell"
+          :userAnswerAction="userAnswer"
         ></TableCell>
       </div>
 
@@ -28,15 +29,18 @@ export default {
     TableSizes,
     TableCell
   },
-  beforeCreate() {
-    console.log(this);
-    //this.startGame();
+  data(){
+    return {}
+  },
+  beforeMount() {
+    //console.log(this);
     this.$store.dispatch('game/startGame')
   },
   computed: {
     ...mapGetters({
       tableSize: "config/tableSize",
-      playingField: "game/playingField"
+      playingField: "game/playingField",
+      userAnswer: "game/userAnswer",
     })
   },
   methods:{
@@ -55,7 +59,6 @@ export default {
   align-items: center;
 }
 .table {
-  border: 1px solid red;
   position: relative;
   margin-bottom: 10px;
 }

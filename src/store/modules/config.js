@@ -22,9 +22,14 @@ const mutations = {
 }
 
 const actions = {
-    updateTableSize({ commit,dispatch }, tableSelectedSize){
+    updateTableSize({ commit,dispatch,state }, tableSelectedSize){
+        const {tableSelectedSize:prevTableSelectedSize} = state;
         commit(types.UPDATE_TABLE_SIZE, tableSelectedSize)
-        dispatch('game/startGame', null, { root: true })
+        if(tableSelectedSize === prevTableSelectedSize){
+            dispatch('game/shakeGameField', null, { root: true })
+        }else {
+            dispatch('game/startGame', null, { root: true })
+        }
     }
 }
 

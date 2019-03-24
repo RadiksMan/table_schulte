@@ -9,6 +9,7 @@
 </template>
 
 <style>
+*,*:before, *:after{box-sizing:border-box;outline:none;}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

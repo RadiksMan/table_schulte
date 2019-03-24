@@ -42,10 +42,10 @@ function getValFromNumbArray(array) {
 }
 
 function generateTableCellStyle(comcurrentRow, currentCell, tableWidth, tableHeight, rows, cells) {
-    const width = _.ceil(tableWidth / rows, 2);
-    const height = _.ceil(tableHeight / cells, 2);
-    const left = _.ceil(currentCell * width, 2);
-    const top = _.ceil(comcurrentRow * height, 2);
+    const width = _.ceil(tableWidth / rows, 0);
+    const height = _.ceil(tableHeight / cells, 0);
+    const left = _.ceil(currentCell * width, 0);
+    const top = _.ceil(comcurrentRow * height, 0);
     const zIndex = _.random(1, 10);
     return {
         width: width+'px',
@@ -54,4 +54,18 @@ function generateTableCellStyle(comcurrentRow, currentCell, tableWidth, tableHei
         top:top+'px',
         'z-index': zIndex
     }
+}
+
+
+export function recalculatePlayingFieldPosition(prevField,fieldConfig){
+    const newPlayingField = _.shuffle(createPlayingField(fieldConfig));
+    const recalculatedPrevField = prevField.map((field,index) => {
+      const {value,...restNewField} = newPlayingField[index];
+      return Object.assign({},field,restNewField)
+    })
+    return recalculatedPrevField;
+}
+
+export function getRightAnswersValue(tableSelectedSize){
+    return _.range(Math.pow(tableSelectedSize,2)).map(item => item + 1)
 }
