@@ -1,15 +1,15 @@
 <template>
-  <Table/>
+  <TableResizer/>
 </template>
 
 <script>
 // @ is an alias to /src
-import Table from '@/components/Table/Table.vue'
+import TableResizer from '@/components/Table/TableResizer.vue'
 
 export default {
   name: 'home',
   components: {
-    Table
+    TableResizer
   }
 }
 </script>

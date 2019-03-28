@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .table-size-holder{list-style-type: none;padding:0;margin:0;display: flex;justify-content: center;}
+    .table-size-holder{list-style-type: none;padding:0;margin:0;display: flex;justify-content: center;position: absolute;top:0;right:0;}
     .table-size-item{margin:0 5px;cursor:pointer;
         &.active{font-weight: bold;}
     }

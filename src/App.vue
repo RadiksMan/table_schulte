@@ -10,7 +10,24 @@
 
 <style>
 *,*:before, *:after{box-sizing:border-box;outline:none;}
+html{height:100%;}
+body{height:100%;width:100%;min-width:320px;background:#fff;position:relative;margin:0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
 #app {
+  width: 100%;
+  height: 100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -18,6 +35,9 @@
   color: #2c3e50;
 }
 #nav {
+  position: absolute;
+  right:0;
+  top:0;
   padding: 30px;
 }
 
