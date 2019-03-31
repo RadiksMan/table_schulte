@@ -1,5 +1,5 @@
 import * as types from '../mutation-types';
-import { createPlayingField, recalculatePlayingFieldPosition, getRightAnswersValue } from '../../services/gameService'
+import { createPlayingField, shakePlayingFieldPosition, getRightAnswersValue, resizePlayingField } from '../../services/gameService'
 
 const state = {
     isGame: false,
@@ -22,6 +22,9 @@ const mutations = {
         state.playingField = playingField;
     },
     [types.GAME_RECALCULATE_GAME_FIELD](state, playingField) {
+        state.playingField = playingField;
+    },
+    [types.GAME_RESIZE_GAME_FIELD](state, playingField) {
         state.playingField = playingField;
     },
     [types.GAME_READY](state) {
@@ -78,13 +81,13 @@ const actions = {
         commit(types.GAME_PREPEARE);
         const { playingField } = state;
         const { tableHeight, tableWidth, tableSelectedSize } = rootState.config;
-        const recalculatedPlayingField = recalculatePlayingFieldPosition(playingField, {
+        const shakedPlayingField = shakePlayingFieldPosition(playingField, {
             rows: tableSelectedSize,
             cells: tableSelectedSize,
             tableWidth,
             tableHeight
         })
-        commit(types.GAME_RECALCULATE_GAME_FIELD, recalculatedPlayingField)
+        commit(types.GAME_RECALCULATE_GAME_FIELD, shakedPlayingField)
         commit(types.GAME_GET_RIGHT_ANSWERS_VALUE, getRightAnswersValue(tableSelectedSize))
         commit(types.GAME_READY);
     },
@@ -105,6 +108,18 @@ const actions = {
         if(answerIsCorrect) commit(types.GAME_GET_NEXT_RIGHT_ANSWER)
         commit(types.GAME_USER_ANSWER,userAnswer)
     },
+    resizeGameField({ commit, dispatch, state, rootState }) {
+        const { playingField } = state;
+        const { tableHeight, tableWidth, tableSelectedSize } = rootState.config;
+        commit(types.GAME_PREPEARE);
+        const resizedPlayingField = resizePlayingField(playingField, {
+            tableSelectedSize,
+            tableWidth,
+            tableHeight
+        })
+        commit(types.GAME_RESIZE_GAME_FIELD, resizedPlayingField)
+        commit(types.GAME_READY);
+    }
 }
 
 const getters = {

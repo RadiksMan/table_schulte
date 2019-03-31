@@ -57,7 +57,7 @@ function generateTableCellStyle(comcurrentRow, currentCell, tableWidth, tableHei
 }
 
 
-export function recalculatePlayingFieldPosition(prevField,fieldConfig){
+export function shakePlayingFieldPosition(prevField,fieldConfig){
     const newPlayingField = _.shuffle(createPlayingField(fieldConfig));
     const recalculatedPrevField = prevField.map((field,index) => {
       const {value,...restNewField} = newPlayingField[index];
@@ -68,4 +68,25 @@ export function recalculatePlayingFieldPosition(prevField,fieldConfig){
 
 export function getRightAnswersValue(tableSelectedSize){
     return _.range(Math.pow(tableSelectedSize,2)).map(item => item + 1)
+}
+
+export function resizePlayingField(playingField, { tableSelectedSize, tableWidth, tableHeight }) {
+    const width = _.ceil(tableWidth / tableSelectedSize, 0);
+    const height = _.ceil(tableHeight / tableSelectedSize, 0);
+    return playingField.map(field => {
+        const { position, stylePosition: prevStylePosition } = field;
+        const left = _.ceil(position.cell * width, 0);
+        const top = _.ceil(position.row * height, 0);
+        const stylePosition = {
+            ...prevStylePosition,
+            width: width + 'px',
+            height: height + 'px',
+            left: left + 'px',
+            top: top + 'px',
+        }
+        return {
+            ...field,
+            stylePosition
+        }
+    })
 }

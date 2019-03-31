@@ -11,8 +11,8 @@ const state = {
 
 const mutations = {
     [types.UPDATE_TABLE_DIMENSION](state,payload){
-        state.tableWidth = payload.tableWidth
-        state.tableHeight = payload.tableHeight
+        state.tableWidth = payload.width
+        state.tableHeight = payload.height
     },
     [types.UPDATE_TABLE_SIZE](state,payload){
         state.tableSelectedSize = payload
@@ -30,6 +30,15 @@ const actions = {
         }else {
             dispatch('game/startGame', null, { root: true })
         }
+    },
+    initTableDimension({commit}){
+        const width = document.body.clientWidth - 30;
+        const height = document.body.clientHeight - 30;
+        commit(types.UPDATE_TABLE_DIMENSION, {width,height})
+    },
+    updateTableDimension({commit,dispatch}, {width,height}){
+        commit(types.UPDATE_TABLE_DIMENSION, {width,height})
+        dispatch('game/resizeGameField', null, { root: true })
     }
 }
 

@@ -1,6 +1,12 @@
 <template>
-  <transition :name="'transition-'+answerIsCorrect" v-on:after-leave="afterLeaveAnim" >
-    <div class="table-cell" :style="cell.stylePosition" @click="userChoiseValue(cell)" :key="timeStamp">
+  <transition :name="'transition-'+answerIsCorrect" >
+    <div
+      class="table-cell"
+      :class="[isResizing ? 'resizing' : '',]"
+      :style="cell.stylePosition"
+      @click="userChoiseValue(cell)"
+      :key="timeStamp"
+    >
       <div class="table-cell-wrap">
         {{cell.value}}
       </div>
@@ -13,7 +19,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "TableCell",
-  props: ["cell","userAnswerAction"],
+  props: ["cell","userAnswerAction","isResizing"],
   data() {
     return {
       answerIsCorrect:null,
@@ -36,13 +42,7 @@ export default {
   methods: {
     ...mapActions({
       userChoiseValue:"game/userChoiseValue"
-    }),
-    afterLeaveAnim: function (el) {
-      // setTimeout(() => {
-      //   this.answerIsCorrect = null;
-      // }, 500)
-
-    }
+    })
   }
 };
 </script>
@@ -53,6 +53,10 @@ export default {
   font-size: 2.5vw;
   transition:left ease 1s,top ease 1s;
   backface-visibility: hidden;
+  &.resizing{
+    transition:none;
+    will-change: position,width,height;
+  }
 }
 .table-cell-wrap{
   flex:1;

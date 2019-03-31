@@ -2,16 +2,18 @@
   <div style="border: 1px solid red; position: relative;" class="table-holder">
 
     <vue-draggable-resizable
-      :w="500"
-      :h="500"
+      :w="tableDemensions.width"
+      :h="tableDemensions.height"
       @dragging="onDrag"
       @resizing="onResize"
+      @resizestop="onResizeStop"
       :parent="true"
     >
-      <Table/>
+      <Table :isResizing="isResizing" />
     </vue-draggable-resizable>
 
     <TableSizes/>
+
   </div>
 </template>
 
@@ -32,18 +34,25 @@ export default {
   },
   data: function() {
     return {
-      width: 0,
-      height: 0,
+      isResizing:false,
       x: 0,
       y: 0
     };
   },
+  mounted(){
+    console.log(this)
+  },
   methods: {
     onResize: function(x, y, width, height) {
+      this.isResizing = true;
       this.x = x;
       this.y = y;
-      this.width = width;
-      this.height = height;
+      this.$store.dispatch('config/updateTableDimension',{width,height})
+      // this.width = width;
+      // this.height = height;
+    },
+    onResizeStop: function (x, y, width, height) {
+      this.isResizing = false
     },
     onDrag: function(x, y) {
       this.x = x;
@@ -54,7 +63,9 @@ export default {
     //console.log(this);
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      tableDemensions:"config/tableSize"
+    })
   }
   //   methods:{
   //     ...mapActions({

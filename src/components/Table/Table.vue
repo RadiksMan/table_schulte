@@ -10,6 +10,7 @@
           :key="cell.value"
           :cell="cell"
           :userAnswerAction="userAnswer"
+          :isResizing="isResizing"
         ></TableCell>
       </div>
 
@@ -24,11 +25,14 @@ import TableCell from './TableCell.vue';
 export default {
   name: "Table",
   components: {
-
     TableCell
   },
+  props: ["isResizing"],
   data(){
     return {}
+  },
+  beforeCreate(){
+    this.$store.dispatch('config/initTableDimension')
   },
   beforeMount() {
     //console.log(this);
