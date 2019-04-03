@@ -32,7 +32,7 @@ export default {
     return {}
   },
   beforeCreate(){
-    this.$store.dispatch('config/initTableDimension')
+    this.$store.dispatch('config/calcTableDimension')
   },
   beforeMount() {
     //console.log(this);

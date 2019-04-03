@@ -4,10 +4,16 @@
     <vue-draggable-resizable
       :w="tableDemensions.width"
       :h="tableDemensions.height"
+      :x="x"
+      :y="y"
       @dragging="onDrag"
       @resizing="onResize"
       @resizestop="onResizeStop"
       :parent="true"
+      :min-width="tableVariabilitySizes.minWidth"
+      :min-height="tableVariabilitySizes.minHeight"
+      :max-width="tableVariabilitySizes.maxWidth"
+      :max-height="tableVariabilitySizes.maxHeight"
     >
       <Table :isResizing="isResizing" />
     </vue-draggable-resizable>
@@ -24,6 +30,7 @@ import "vue-draggable-resizable/dist/VueDraggableResizable.css";
 
 import Table from "./Table.vue";
 import TableSizes from "./TableSizes.vue";
+//import {centerTable} from "../../services/helpers"
 
 export default {
   name: "TableResizer",
@@ -39,8 +46,16 @@ export default {
       y: 0
     };
   },
+  created: function () {
+    this.centerTable();
+    window.addEventListener('resize', this.handleResize)
+  },
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize)
+  },
   mounted(){
     console.log(this)
+
   },
   methods: {
     onResize: function(x, y, width, height) {
@@ -48,15 +63,25 @@ export default {
       this.x = x;
       this.y = y;
       this.$store.dispatch('config/updateTableDimension',{width,height})
-      // this.width = width;
-      // this.height = height;
     },
     onResizeStop: function (x, y, width, height) {
-      this.isResizing = false
+      this.isResizing = false;
     },
     onDrag: function(x, y) {
       this.x = x;
       this.y = y;
+    },
+    centerTable(){
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const {height:tableHeight,width:tableWidth} = this.tableDemensions;
+      const positionLeft = (windowWidth - tableWidth)/2;
+      const positionTop = (windowHeight - tableHeight)/2;
+      this.x = positionLeft;
+      this.y = positionTop;
+    },
+    handleResize (event) {
+      this.centerTable();
     }
   },
   beforeMount() {
@@ -64,7 +89,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      tableDemensions:"config/tableSize"
+      tableDemensions:"config/tableSize",
+      tableVariabilitySizes:"config/tableVariabilitySizes",
     })
   }
   //   methods:{
